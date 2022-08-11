@@ -50,6 +50,7 @@ for i in df.iloc[:, 3]: #3 in reference to third column 'SampleName'
 		j_pos +=1
 	i_pos += 1
 
+#FIXME i did this loop wrong im fairly sure
 #delete duplicate data from main dataframe
 for i in duplicate_pos:
 	df.drop([i])
