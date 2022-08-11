@@ -17,7 +17,7 @@ all_files = glob.glob(os.path.join(path, "*.xlsx"))
 df_allfiles = pd.concat((pd.read_excel(f) for f in all_files), ignore_index=True)
 
 #main combined dataframe
-df = pd.DataFrame(columns= ['iLab Submission #', 'Position', 'SampleName', 'N1', 'RP', 'Interpretation', 'OKCheck'])
+df = pd.DataFrame(columns= ['iLab Submission #', 'Position', 'SampleName', 'N1', 'RP', 'Interpretation'])
 df = pd.concat([df, df_allfiles], ignore_index=True)
 
 #empty dataframe for duplicate data
@@ -31,23 +31,29 @@ print(df) #testing print in terminal
 #integer values for index positions
 i_pos = 0
 j_pos = 0 #integer values for index positions
+
+
+
+#FIXME currently when making df duplicates, using j_pos returns an index that is out of bounds. loops may be incorrect
 # add duplicate data to new csv file
-for i in df.iloc[:, 3]: #3 in reference to third column 'SampleName'
-	for j in df.iloc[i_pos:, 3]:
+for i in df.iloc[:, 2]: #2 in reference to third column 'SampleName'
+	for j in df.iloc[i_pos:, 2]:
 		if (i == j):
-			df_duplicates = df_duplicates.append({
-				'iLab Submission #' : df.iloc[j_pos]['iLab Submission #'],
-				'Position' : df.iloc[j_pos]['Position'],
-				'SampleName' : df.iloc[j_pos]['SampleName'],
-				'N1' : df.iloc[j_pos]['N1'],
-				'RP' : df.iloc[j_pos]['RP'],
-				'Interpretation' : df.iloc[j_pos]['Interpretation'],
-				'OKCheck' : df.iloc[j_pos]['OKCheck']
-				}, ignore_index=True)
+			df_duplicates_new_row = pd.DataFrame({
+				'iLab Submission #' : [df.iloc[0]['iLab Submission #']],
+				'Position' : [df.iloc[j_pos]['Position']],
+				'SampleName' : [df.iloc[j_pos]['SampleName']],
+				'N1' : [df.iloc[j_pos]['N1']],
+				'RP' : [df.iloc[j_pos]['RP']],
+				'Interpretation' : [df.iloc[j_pos]['Interpretation']]
+				})
 			
-			duplicate_pos = duplicate_pos.append(j_pos)
+			df_duplicates = pd.concat([df_duplicates, df_duplicates_new_row], ignore_index=True) #add new row to duplicates (append method removed in future pandas version)
+
+			
+			duplicate_pos.append(j_pos) #add the column number (j_pos) to list of duplicates
 		
-		j_pos +=1
+		j_pos += 1
 	i_pos += 1
 
 #FIXME i did this loop wrong im fairly sure
