@@ -1,4 +1,4 @@
-# Author: Quanwei Lei
+# Author: Quanwei Lei & David Ruddell & Chris Ocariza
 # Purpose: read in csv files and then filter out failed excel files and sheets that are not useful
 # towards the dataset
 
@@ -10,7 +10,7 @@ import os
 def main():
     # asks user for path with all of excel files available,
     # currently using: /home/quan/Desktop/excel
-    path = input("Enter Path:")
+    path = input("Enter folder path containing .xlsx files:")
     all_files = glob.glob(os.path.join(path, "*.xlsx"))
     df = pd.DataFrame(columns= ['iLab Submission #', 'Position', 'SampleName', 'N1', 'RP', 'Interpretation'])
 
