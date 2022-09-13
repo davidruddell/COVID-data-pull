@@ -35,7 +35,7 @@ def removal(keys):
     newkeys = []
     for i in keys:
         # filters out any sheet containing the keyword STARS
-        if i.__contains__("STARS") == False:
+        if ((i.__contains__("STARS") == False) and (i.__contains__("POS MAP") == False) and (i.__contains__("Plate Map") == False) and (i.__contains__("Sheet") == False)):
             newkeys.append(i)
     return newkeys
 
